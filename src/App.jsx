@@ -12,18 +12,22 @@ import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
 import PlayersPage from '@/pages/PlayersPage'
 import MatchesPage from './pages/MatchesPage'
+import MatchDetailPage from './pages/MatchDetailPage' 
+
 const StatsPage = () => (
   <div className="page-container">
     <h1 className="page-title">Estadísticas</h1>
     <p>Próximamente: Estadísticas detalladas</p>
   </div>
 )
+
 const SettingsPage = () => (
   <div className="page-container">
     <h1 className="page-title">Configuración</h1>
     <p className="text-gray-600">Próximamente: Configuración de la aplicación</p>
   </div>
 )
+
 function App() {
   return (
     <Router>
@@ -81,6 +85,15 @@ function App() {
               <ProtectedRoute>
                 <MainLayout>
                   <MatchesPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+
+            {/* ← AÑADIR ESTA RUTA NUEVA */}
+            <Route path="/matches/:matchId" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <MatchDetailPage />
                 </MainLayout>
               </ProtectedRoute>
             } />

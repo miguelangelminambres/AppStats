@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/contexts/AuthContext';  // ← Corregido
 import { useLicense } from '@/contexts/LicenseContext';
@@ -536,19 +537,26 @@ const { currentLicense } = useLicense();
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <button
-                        onClick={() => handleEdit(match)}
-                        className="text-blue-600 hover:text-blue-900 mr-4"
-                      >
-                        ✏️
-                      </button>
-                      <button
-                        onClick={() => handleDeleteConfirm(match)}
-                        className="text-red-600 hover:text-red-900"
-                      >
-                        🗑️
-                      </button>
-                    </td>
+  <Link
+    to={`/matches/${match.id}`}
+    className="text-green-600 hover:text-green-900 mr-4"
+    title="Ver estadísticas"
+  >
+    📊
+  </Link>
+  <button
+    onClick={() => handleEdit(match)}
+    className="text-blue-600 hover:text-blue-900 mr-4"
+  >
+    ✏️
+  </button>
+  <button
+    onClick={() => handleDeleteConfirm(match)}
+    className="text-red-600 hover:text-red-900"
+  >
+    🗑️
+  </button>
+</td>
                   </tr>
                 ))}
               </tbody>
@@ -565,19 +573,25 @@ const { currentLicense } = useLicense();
                     <p className="text-sm text-gray-500">{formatDate(match.match_date)}</p>
                   </div>
                   <div className="flex gap-2">
-                    <button
-                      onClick={() => handleEdit(match)}
-                      className="text-blue-600 hover:text-blue-900"
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      onClick={() => handleDeleteConfirm(match)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      🗑️
-                    </button>
-                  </div>
+  <Link
+    to={`/matches/${match.id}`}
+    className="text-green-600 hover:text-green-900"
+  >
+    📊
+  </Link>
+  <button
+    onClick={() => handleEdit(match)}
+    className="text-blue-600 hover:text-blue-900"
+  >
+    ✏️
+  </button>
+  <button
+    onClick={() => handleDeleteConfirm(match)}
+    className="text-red-600 hover:text-red-900"
+  >
+    🗑️
+  </button>
+</div>
                 </div>
                 
                 <div className="space-y-1 text-sm">
