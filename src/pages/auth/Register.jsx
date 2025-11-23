@@ -88,8 +88,10 @@ const Register = () => {
       )
 
       if (authError) {
-        if (authError.message.includes('already registered')) {
-          toast.error('Este email ya está registrado')
+        if (authError.message.includes('already registered') || authError.message.includes('User already registered')) {
+          toast.error('Este email ya está registrado. Si eres tú, intenta iniciar sesión.')
+        } else if (authError.code === '23505' || authError.message.includes('duplicate key')) {
+          toast.error('Este usuario ya existe. Por favor, intenta iniciar sesión o usa otro email.')
         } else {
           toast.error(authError.message)
         }
