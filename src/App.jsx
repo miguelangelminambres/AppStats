@@ -10,8 +10,8 @@ import LicenseValidation from '@/pages/auth/LicenseValidation'
 import Register from '@/pages/auth/Register'
 import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
+import PlayersPage from '@/pages/PlayersPage'
 
-const PlayersPage = () => <div className="page-container"><h1 className="page-title">Plantilla</h1><p>Próximamente: Gestión de jugadores</p></div>
 const MatchesPage = () => <div className="page-container"><h1 className="page-title">Partidos</h1><p>Próximamente: Gestión de partidos</p></div>
 const StatsPage = () => <div className="page-container"><h1 className="page-title">Estadísticas</h1><p>Próximamente: Estadísticas detalladas</p></div>
 const SettingsPage = () => <div className="page-container"><h1 className="page-title">Configuración</h1><p>Próximamente: Configuración de la cuenta</p></div>
@@ -47,29 +47,20 @@ function App() {
           />
 
           <Routes>
-            {/* Ruta inicial - Validación de licencia */}
             <Route path="/license" element={<LicenseValidation />} />
-            
-            {/* Registro con licencia validada */}
             <Route path="/register" element={<Register />} />
-            
-            {/* Login */}
             <Route path="/login" element={<Login />} />
 
-            {/* Dashboard principal (protegido) */}
-           {/* Redirigir raíz a licencia */}
-<Route path="/" element={<Navigate to="/license" replace />} />
+            <Route path="/" element={<Navigate to="/license" replace />} />
 
-{/* Dashboard principal (protegido) */}
-<Route path="/dashboard" element={
-  <ProtectedRoute>
-    <MainLayout>
-      <Dashboard />
-    </MainLayout>
-  </ProtectedRoute>
-} />
+            <Route path="/dashboard" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <Dashboard />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
             
-            {/* Rutas protegidas */}
             <Route path="/players" element={
               <ProtectedRoute>
                 <MainLayout>
@@ -102,7 +93,6 @@ function App() {
               </ProtectedRoute>
             } />
 
-            {/* Redirigir a licencia por defecto */}
             <Route path="*" element={<Navigate to="/license" replace />} />
           </Routes>
         </LicenseProvider>

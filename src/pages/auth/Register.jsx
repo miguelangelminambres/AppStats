@@ -98,7 +98,26 @@ const Register = () => {
 
       const userId = authData.user.id
 
-      // 2. Vincular usuario a la licencia en user_licenses
+      // 2. Crear usuario en la tabla users (NUEVO PASO)
+      const { error: userError } = await supabase
+        .from('users')
+        .insert([{
+          id: userId,
+          name: formData.name,
+          email: formData.email,
+          password: formData.password, // En producción deberías hashear esto
+          role: 'coach',
+          status: 'active',
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }])
+
+      if (userError) {
+        console.error('Error al crear usuario en tabla users:', userError)
+        throw userError
+      }
+
+      // 3. Vincular usuario a la licencia en user_licenses
       const { error: linkError } = await supabase
         .from('user_licenses')
         .insert([
@@ -106,26 +125,34 @@ const Register = () => {
             user_id: userId,
             license_id: licenseInfo.id,
             status: 'active',
-            activated_at: new Date().toISOString()
+            activated_at: new Date().toISOString(),
+            created_at: new Date().toISOString()
           }
         ])
 
-      if (linkError) throw linkError
+      if (linkError) {
+        console.error('Error al vincular licencia:', linkError)
+        throw linkError
+      }
 
-      // 3. Si es el primer usuario, actualizar el estado de la licencia a 'active'
+      // 4. Si es el primer usuario, actualizar el estado de la licencia a 'active'
       if (licenseInfo.activeUsers === 0) {
         const { error: updateError } = await supabase
           .from('licenses')
           .update({
             status: 'active',
-            activated_at: new Date().toISOString()
+            activated_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
           })
           .eq('id', licenseInfo.id)
 
-        if (updateError) throw updateError
+        if (updateError) {
+          console.error('Error al actualizar licencia:', updateError)
+          // No lanzamos error aquí porque el usuario ya está creado
+        }
       }
 
-      // 4. Limpiar código pendiente
+      // 5. Limpiar código pendiente
       localStorage.removeItem('pendingLicenseCode')
 
       toast.success('¡Registro exitoso! Por favor, inicia sesión')
@@ -133,7 +160,7 @@ const Register = () => {
 
     } catch (error) {
       console.error('Error en registro:', error)
-      toast.error('Error al crear la cuenta. Inténtalo de nuevo.')
+      toast.error(error.message || 'Error al crear la cuenta. Inténtalo de nuevo.')
     } finally {
       setLoading(false)
     }
