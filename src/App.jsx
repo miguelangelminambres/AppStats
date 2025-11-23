@@ -10,11 +10,11 @@ import LicenseValidation from '@/pages/auth/LicenseValidation'
 import Register from '@/pages/auth/Register'
 import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
+import Settings from '@/pages/Settings'
 
 const PlayersPage = () => <div className="page-container"><h1 className="page-title">Plantilla</h1><p>Próximamente: Gestión de jugadores</p></div>
 const MatchesPage = () => <div className="page-container"><h1 className="page-title">Partidos</h1><p>Próximamente: Gestión de partidos</p></div>
 const StatsPage = () => <div className="page-container"><h1 className="page-title">Estadísticas</h1><p>Próximamente: Estadísticas detalladas</p></div>
-const SettingsPage = () => <div className="page-container"><h1 className="page-title">Configuración</h1><p>Próximamente: Configuración de la cuenta</p></div>
 
 function App() {
   return (
@@ -97,7 +97,7 @@ function App() {
             <Route path="/settings" element={
               <ProtectedRoute>
                 <MainLayout>
-                  <SettingsPage />
+                  <Settings />
                 </MainLayout>
               </ProtectedRoute>
             } />
