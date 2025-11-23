@@ -11,11 +11,19 @@ import Register from '@/pages/auth/Register'
 import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
 import PlayersPage from '@/pages/PlayersPage'
-
-const MatchesPage = () => <div className="page-container"><h1 className="page-title">Partidos</h1><p>Próximamente: Gestión de partidos</p></div>
-const StatsPage = () => <div className="page-container"><h1 className="page-title">Estadísticas</h1><p>Próximamente: Estadísticas detalladas</p></div>
-const SettingsPage = () => <div className="page-container"><h1 className="page-title">Configuración</h1><p>Próximamente: Configuración de la cuenta</p></div>
-
+import MatchesPage from './pages/MatchesPage'
+const StatsPage = () => (
+  <div className="page-container">
+    <h1 className="page-title">Estadísticas</h1>
+    <p>Próximamente: Estadísticas detalladas</p>
+  </div>
+)
+const SettingsPage = () => (
+  <div className="page-container">
+    <h1 className="page-title">Configuración</h1>
+    <p className="text-gray-600">Próximamente: Configuración de la aplicación</p>
+  </div>
+)
 function App() {
   return (
     <Router>
