@@ -11,60 +11,25 @@ import Register from '@/pages/auth/Register'
 import Login from '@/pages/auth/Login'
 import Dashboard from '@/pages/Dashboard'
 import PlayersPage from '@/pages/PlayersPage'
+import PlayerStatsPage from './pages/PlayerStatsPage'
 import MatchesPage from './pages/MatchesPage'
-import MatchDetailPage from './pages/MatchDetailPage' 
-
-const StatsPage = () => (
-  <div className="page-container">
-    <h1 className="page-title">Estadísticas</h1>
-    <p>Próximamente: Estadísticas detalladas</p>
-  </div>
-)
-
-const SettingsPage = () => (
-  <div className="page-container">
-    <h1 className="page-title">Configuración</h1>
-    <p className="text-gray-600">Próximamente: Configuración de la aplicación</p>
-  </div>
-)
+import StatsPage from './pages/StatsPage'; 
+import MatchDetailPage from './pages/MatchDetailPage'
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <LicenseProvider>
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                background: '#fff',
-                color: '#363636',
-              },
-              success: {
-                duration: 3000,
-                iconTheme: {
-                  primary: '#22c55e',
-                  secondary: '#fff',
-                },
-              },
-              error: {
-                duration: 4000,
-                iconTheme: {
-                  primary: '#ef4444',
-                  secondary: '#fff',
-                },
-              },
-            }}
-          />
-
           <Routes>
+            {/* Rutas públicas */}
             <Route path="/license" element={<LicenseValidation />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
-
             <Route path="/" element={<Navigate to="/license" replace />} />
+            <Route path="/stats" element={<StatsPage />} />
 
+            {/* Rutas protegidas */}
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <MainLayout>
@@ -81,6 +46,15 @@ function App() {
               </ProtectedRoute>
             } />
 
+            {/* ← ESTA RUTA DEBE ESTAR AQUÍ */}
+            <Route path="/players/:playerId/stats" element={
+              <ProtectedRoute>
+                <MainLayout>
+                  <PlayerStatsPage />
+                </MainLayout>
+              </ProtectedRoute>
+            } />
+
             <Route path="/matches" element={
               <ProtectedRoute>
                 <MainLayout>
@@ -89,7 +63,6 @@ function App() {
               </ProtectedRoute>
             } />
 
-            {/* ← AÑADIR ESTA RUTA NUEVA */}
             <Route path="/matches/:matchId" element={
               <ProtectedRoute>
                 <MainLayout>
@@ -98,24 +71,8 @@ function App() {
               </ProtectedRoute>
             } />
 
-            <Route path="/stats" element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <StatsPage />
-                </MainLayout>
-              </ProtectedRoute>
-            } />
-
-            <Route path="/settings" element={
-              <ProtectedRoute>
-                <MainLayout>
-                  <SettingsPage />
-                </MainLayout>
-              </ProtectedRoute>
-            } />
-
-            <Route path="*" element={<Navigate to="/license" replace />} />
-          </Routes>
+            {/* ... resto de rutas */}
+                    </Routes>
         </LicenseProvider>
       </AuthProvider>
     </Router>

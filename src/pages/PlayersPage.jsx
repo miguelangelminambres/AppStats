@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useLicense } from '@/contexts/LicenseContext'
+import { Link } from 'react-router-dom'
+import { exportPlayerReport } from '@/utils/pdfExports'
 import { 
   Users, 
   Search, 
@@ -9,7 +11,8 @@ import {
   Trash2, 
   X,
   Phone,
-  Mail
+  Mail,
+  BarChart3  // ← AÑADIR ESTA LÍNEA
 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
@@ -331,21 +334,28 @@ const PlayersPage = () => {
                   )}
 
                   <div className="flex items-center gap-4 mt-3">
-                    <button
-                      onClick={() => handleOpenModal(player)}
-                      className="text-primary-600 hover:text-primary-700 flex items-center gap-1 text-sm"
-                    >
-                      <Edit2 className="h-4 w-4" />
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(player)}
-                      className="text-danger-600 hover:text-danger-700 flex items-center gap-1 text-sm"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      Eliminar
-                    </button>
-                  </div>
+  <Link
+    to={`/players/${player.id}/stats`}
+    className="text-purple-600 hover:text-purple-700 flex items-center gap-1 text-sm"
+  >
+    <BarChart3 className="h-4 w-4" />
+    Estadísticas
+  </Link>
+  <button
+    onClick={() => handleOpenModal(player)}
+    className="text-primary-600 hover:text-primary-700 flex items-center gap-1 text-sm"
+  >
+    <Edit2 className="h-4 w-4" />
+    Editar
+  </button>
+  <button
+    onClick={() => handleDelete(player)}
+    className="text-danger-600 hover:text-danger-700 flex items-center gap-1 text-sm"
+  >
+    <Trash2 className="h-4 w-4" />
+    Eliminar
+  </button>
+</div>
                 </div>
               </div>
             </div>

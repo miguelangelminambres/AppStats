@@ -10,7 +10,8 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!user) {
-    return <Navigate to="/login" replace />
+    // Redirigir a licencia en lugar de login
+    return <Navigate to="/license" replace />
   }
 
   return children

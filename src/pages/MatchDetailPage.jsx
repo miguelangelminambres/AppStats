@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabaseClient';
 import { useAuth } from '@/contexts/AuthContext';
 import { useLicense } from '@/contexts/LicenseContext';
 import { ArrowLeft, Save, Calendar, Trophy, MapPin } from 'lucide-react';
+import { exportMatchReport } from '@/utils/pdfExports';
 
 const MatchDetailPage = () => {
   const { matchId } = useParams();
@@ -134,7 +135,16 @@ const MatchDetailPage = () => {
   };
 
   const t = translations[language];
-
+const handleExportPDF = () => {
+  if (match && playerStats.length > 0) {
+    exportMatchReport(
+      match,
+      playerStats,
+      currentLicense?.name || 'Mi Equipo',
+      language
+    );
+  }
+};
   useEffect(() => {
     if (matchId && currentLicense) {
       fetchMatchAndStats();
@@ -179,6 +189,7 @@ const MatchDetailPage = () => {
       setLoading(false);
     }
   };
+  
 
   const handleStatChange = (statId, field, value) => {
     setPlayerStats(prevStats =>
@@ -298,23 +309,33 @@ const MatchDetailPage = () => {
           <h1 className="text-3xl font-bold text-gray-900">{t.title}</h1>
         </div>
         
-        <div className="flex gap-2">
-          <button
-            onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
-            className="px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
-          >
-            {language === 'es' ? '🇪🇸 ES' : '🇬🇧 EN'}
-          </button>
-          
-          <button
-            onClick={handleSaveAll}
-            disabled={saving}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 disabled:opacity-50"
-          >
-            <Save className="h-4 w-4" />
-            {saving ? t.saving : t.saveAll}
-          </button>
-        </div>
+    <div className="flex gap-2">
+  <button
+    onClick={handleExportPDF}
+    className="px-4 py-2 bg-red-600 text-white rounded-md text-sm font-medium hover:bg-red-700 flex items-center gap-2"
+  >
+    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+    {language === 'es' ? 'Exportar PDF' : 'Export PDF'}
+  </button>
+  
+  <button
+    onClick={() => setLanguage(language === 'es' ? 'en' : 'es')}
+    className="px-3 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50"
+  >
+    {language === 'es' ? '🇪🇸 ES' : '🇬🇧 EN'}
+  </button>
+  
+  <button
+    onClick={handleSaveAll}
+    disabled={saving}
+    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors flex items-center gap-2 disabled:opacity-50"
+  >
+    <Save className="h-4 w-4" />
+    {saving ? t.saving : t.saveAll}
+  </button>
+</div>
       </div>
 
       {/* Match Info Card */}
