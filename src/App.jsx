@@ -15,6 +15,7 @@ import PlayerStatsPage from './pages/PlayerStatsPage'
 import MatchesPage from './pages/MatchesPage'
 import StatsPage from './pages/StatsPage'; 
 import MatchDetailPage from './pages/MatchDetailPage'
+import SettingsPage from './pages/SettingsPage';
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Navigate to="/license" replace />} />
             <Route path="/stats" element={<StatsPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
 
             {/* Rutas protegidas */}
             <Route path="/dashboard" element={
